@@ -1,0 +1,1429 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MOVIX - Servicios de Mudanzas</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #2e4053;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+            --text-light: #ffffff;
+            --text-dark: #333333;
+            --shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        /* Header/Navigation */
+        header {
+            background-color: var(--primary-color);
+            color: var(--text-light);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            transition: var(--transition);
+            box-shadow: var(--shadow);
+        }
+
+        header.scrolled {
+            opacity: 0.9;
+            padding: 0.5rem 2rem;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo-container img {
+            height: 50px;
+            width: auto;
+            border-radius: 50%;
+        }
+
+        .logo-text {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+            padding: 0.5rem 0;
+            position: relative;
+        }
+
+        nav a:hover {
+            color: var(--secondary-color);
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--secondary-color);
+            transition: var(--transition);
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        /* Hero Carousel - ESTILOS CORREGIDOS */
+        .hero {
+            margin-top: 80px;
+            height: 500px;
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+        }
+
+        .carousel {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        .carousel-slide {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+
+        .carousel-slide.active {
+            opacity: 1;
+        }
+
+        .carousel-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .carousel-caption {
+            position: absolute;
+            top: 50%;
+            left: 10%;
+            transform: translateY(-50%);
+            background-color: rgba(46, 64, 83, 0.8);
+            color: var(--text-light);
+            padding: 2rem;
+            max-width: 500px;
+            border-radius: 10px;
+            z-index: 10;
+        }
+
+        .carousel-caption h1 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .carousel-caption p {
+            font-size: 1.1rem;
+        }
+
+        .carousel-controls {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            z-index: 10;
+        }
+
+        .carousel-control {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .carousel-control.active {
+            background-color: var(--text-light);
+            transform: scale(1.2);
+        }
+
+        /* Divider */
+        .divider {
+            height: 2px;
+            background-color: var(--primary-color);
+            margin: 2rem 0;
+            width: 80%;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Services Section */
+        .services {
+            padding: 3rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .services-title {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: var(--primary-color);
+            font-size: 2rem;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .service-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .service-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            background-color: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-color);
+            font-weight: bold;
+            font-size: 1.2rem;
+            text-align: center;
+            padding: 1rem;
+        }
+
+        .service-card img::before {
+            content: attr(alt);
+        }
+
+        .service-card-content {
+            padding: 1.5rem;
+        }
+
+        .service-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .service-card p {
+            color: var(--text-dark);
+            margin-bottom: 1rem;
+        }
+
+        /* Process Section */
+        .process-section {
+            padding: 3rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: #f9f9f9;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            color: var(--primary-color);
+            font-size: 2.2rem;
+            font-weight: 600;
+            position: relative;
+            padding-bottom: 1rem;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background-color: var(--dark-color);
+        }
+
+        .process-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .process-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            text-align: center;
+            border-top: 4px solid var(--dark-color);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .process-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .process-logo {
+            margin-bottom: 1.5rem;
+        }
+
+        .process-logo img {
+            height: 60px;
+            width: auto;
+        }
+
+        .process-icon {
+            font-size: 2.5rem;
+            color: var(--dark-color);
+            margin-bottom: 1.5rem;
+            background-color: rgba(52, 152, 219, 0.1);
+            width: 70px;
+            height: 70px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+
+        .process-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 1.2rem;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .process-card p {
+            color: var(--text-dark);
+            line-height: 1.6;
+            font-size: 1rem;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--primary-color);
+            color: var(--text-light);
+            padding: 2rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .whatsapp-icon {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            background-color: #25D366;
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2rem;
+            box-shadow: var(--shadow);
+            z-index: 999;
+            transition: var(--transition);
+        }
+
+        .whatsapp-icon:hover {
+            transform: scale(1.1);
+        }
+
+        /* Back to Top Button - Now centered at bottom */
+        .back-to-top-container {
+            position: fixed;
+            bottom: 20px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            z-index: 998;
+        }
+
+        .back-to-top {
+            background-color: var(--primary-color);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            box-shadow: var(--shadow);
+            cursor: pointer;
+            transition: var(--transition);
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .back-to-top:hover {
+            background-color: var(--dark-color);
+        }
+
+        /* Chatbox Styles */
+        .chatbox-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .chatbox-button {
+            width: 60px;
+            height: 60px;
+            background-color: var(--primary-color);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .chatbox-button:hover {
+            transform: scale(1.1);
+        }
+
+        .chatbox-button::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0) 70%);
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .chatbox-button:hover::before {
+            opacity: 1;
+        }
+
+        .chatbox-button img {
+            width: 70%;
+            height: 70%;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .chatbox-button .notification {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            width: 20px;
+            height: 20px;
+            background-color: var(--accent-color);
+            border-radius: 50%;
+            color: white;
+            font-size: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.2);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .chatbox {
+            width: 350px;
+            height: 500px;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            display: none;
+            flex-direction: column;
+            transform: translateY(20px);
+            opacity: 0;
+            transition: var(--transition);
+            margin-bottom: 15px;
+        }
+
+        .chatbox.active {
+            display: flex;
+            transform: translateY(0);
+            opacity: 1;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .chatbox-header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            position: relative;
+            opacity: 0.9;
+        }
+
+        .chatbox-header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.5), transparent);
+        }
+
+        .chatbox-header img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+            object-fit: cover;
+        }
+
+        .chatbox-header-info {
+            flex: 1;
+        }
+
+        .chatbox-header-info h3 {
+            font-size: 16px;
+            margin-bottom: 3px;
+        }
+
+        .chatbox-header-info p {
+            font-size: 12px;
+            opacity: 0.8;
+        }
+
+        .chatbox-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .chatbox-close:hover {
+            transform: rotate(90deg);
+        }
+
+        /* Chatbox Body */
+        .chatbox-body {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            background-color: #f9f9f9;
+            background-image: linear-gradient(to bottom, rgba(46, 64, 83, 0.05) 1px, transparent 1px);
+            background-size: 100% 10px;
+        }
+
+        .message {
+            margin-bottom: 15px;
+            display: flex;
+            flex-direction: column;
+            max-width: 80%;
+        }
+
+        .message.received {
+            align-items: flex-start;
+        }
+
+        .message.sent {
+            align-items: flex-end;
+        }
+
+        .message-content {
+            padding: 10px 15px;
+            border-radius: 18px;
+            position: relative;
+            line-height: 1.4;
+            font-size: 14px;
+            animation: messageIn 0.3s ease-out;
+        }
+
+        @keyframes messageIn {
+            from {
+                transform: translateY(10px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .message.received .message-content {
+            background-color: white;
+            color: var(--dark-color);
+            border-top-left-radius: 5px;
+            box-shadow: var(--shadow);
+        }
+
+        .message.sent .message-content {
+            background-color: var(--secondary-color);
+            color: white;
+            border-top-right-radius: 5px;
+        }
+
+        .message-time {
+            font-size: 11px;
+            color: #95a5a6;
+            margin-top: 5px;
+        }
+
+        .message.sent .message-time {
+            text-align: right;
+        }
+
+        .quick-replies {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .quick-reply {
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            padding: 8px 15px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .quick-reply:hover {
+            background-color: var(--primary-color);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* Chatbox Footer */
+        .chatbox-footer {
+            padding: 10px;
+            background-color: white;
+            border-top: 1px solid #eee;
+            display: flex;
+            align-items: center;
+        }
+
+        .chatbox-input {
+            flex: 1;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            padding: 10px 15px;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .chatbox-input:focus {
+            border-color: var(--secondary-color);
+        }
+
+        .chatbox-send {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            margin-left: 10px;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .chatbox-send:hover {
+            background-color: var(--primary-color);
+            transform: scale(1.1);
+        }
+
+        /* Typing indicator */
+        .typing-indicator {
+            display: inline-flex;
+            padding: 10px 15px;
+            background-color: white;
+            border-radius: 18px;
+            box-shadow: var(--shadow);
+            margin-bottom: 15px;
+        }
+
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            background-color: #95a5a6;
+            border-radius: 50%;
+            margin: 0 2px;
+            animation: typingAnimation 1.4s infinite ease-in-out;
+        }
+
+        .typing-dot:nth-child(1) {
+            animation-delay: 0s;
+        }
+
+        .typing-dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes typingAnimation {
+
+            0%,
+            60%,
+            100% {
+                transform: translateY(0);
+            }
+
+            30% {
+                transform: translateY(-5px);
+            }
+        }
+
+        /* Service card */
+        .service-message-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: var(--shadow);
+            border-left: 4px solid var(--secondary-color);
+            transition: var(--transition);
+        }
+
+        .service-message-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .service-message-card h4 {
+            color: var(--primary-color);
+            margin-bottom: 8px;
+            font-size: 15px;
+        }
+
+        .service-message-card p {
+            color: #7f8c8d;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        /* WhatsApp link */
+        .whatsapp-link {
+            color: #25D366;
+            text-decoration: none;
+            font-weight: bold;
+            display: inline-block;
+            margin-top: 5px;
+            transition: var(--transition);
+        }
+
+        .whatsapp-link:hover {
+            text-decoration: underline;
+            transform: translateX(3px);
+        }
+
+        /* Allow links in messages */
+        .message-content a {
+            color: var(--secondary-color);
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .message-content a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive - ACTUALIZADO */
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                padding: 1rem;
+            }
+
+            .logo-container {
+                margin-bottom: 1rem;
+            }
+
+            nav ul {
+                gap: 1rem;
+            }
+
+            .hero {
+                height: 400px;
+                margin-top: 120px;
+            }
+
+            .carousel-caption {
+                left: 5%;
+                right: 5%;
+                max-width: 90%;
+                padding: 1rem;
+                top: auto;
+                bottom: 20px;
+                transform: none;
+            }
+
+            .carousel-caption h1 {
+                font-size: 1.5rem;
+            }
+
+            .carousel-caption p {
+                font-size: 1rem;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .process-steps {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .whatsapp-icon {
+                bottom: 80px;
+                left: 20px;
+                width: 50px;
+                height: 50px;
+                font-size: 1.5rem;
+            }
+
+            .chatbox {
+                width: 90vw;
+                height: 70vh;
+                right: 5vw;
+                bottom: 80px;
+            }
+
+            .back-to-top-container {
+                bottom: 80px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header with Navigation -->
+    <header id="main-header">
+        <div class="logo-container">
+            <img src="movix-icon2.png" alt="MOVIX Logo">
+            <div class="logo-text">MOVIX</div>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#inicio">Inicio</a></li>
+                <li><a href="#servicio">Servicio</a></li>
+                <li><a href="#formulario">Formulario</a></li>
+                <li><a href="login.html">Acceso</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero Carousel - CORREGIDO -->
+    <section class="hero" id="inicio">
+        <div class="carousel">
+            <div class="carousel-slide active">
+                <img src="images/mudanza1.jpg" alt="Equipo de mudanza trabajando">
+                <div class="carousel-caption">
+                    <h1>MOVIX Mudanzas</h1>
+                    <p>En MOVIX te ayudamos a mudarte sin estrés. Brindándote soluciones ágiles, seguras y accesibles
+                        para que puedas trasladar tus cosas a donde las necesites y con total confianza.</p>
+                </div>
+            </div>
+            <div class="carousel-slide">
+                <img src="images/mudanza4.jpg" alt="Camión de mudanzas">
+                <div class="carousel-caption">
+                    <h1>MOVIX Mudanzas</h1>
+                    <p>En MOVIX te ayudamos a mudarte sin estrés. Brindándote soluciones ágiles, seguras y accesibles
+                        para que puedas trasladar tus cosas a donde las necesites y con total confianza.</p>
+                </div>
+            </div>
+            <div class="carousel-slide">
+                <img src="images/mudanza3.jpg" alt="Embalaje profesional">
+                <div class="carousel-caption">
+                    <h1>MOVIX Mudanzas</h1>
+                    <p>En MOVIX te ayudamos a mudarte sin estrés. Brindándote soluciones ágiles, seguras y accesibles
+                        para que puedas trasladar tus cosas a donde las necesites y con total confianza.</p>
+                </div>
+            </div>
+        </div>
+        <div class="carousel-controls">
+            <div class="carousel-control active" data-index="0"></div>
+            <div class="carousel-control" data-index="1"></div>
+            <div class="carousel-control" data-index="2"></div>
+        </div>
+    </section>
+
+    <!-- Divider -->
+    <div class="divider"></div>
+
+    <!-- Services Section -->
+    <section class="services" id="formulario">
+        <h2 class="section-title">Nuestros servicios</h2>
+        <div class="services-grid">
+            <div class="service-card">
+                <img src="mudanzas-residenciales.png" alt="Mudanzas residenciales">
+                <div class="service-card-content">
+                    <h3>Mudanzas Residenciales</h3>
+                    <p>Nos encargamos de principio a fin para que no tengas que preocuparte por nada: embalamos cada
+                        objeto con cuidado, transportamos tus pertenencias de forma segura y descargamos todo en tu
+                        nuevo hogar. Ya sea que te mudes de casa, departamento o estés reorganizando tu vida, te
+                        ofrecemos un servicio personalizado, puntual y eficiente para que tu mudanza sea lo más liviana
+                        posible.</p>
+                </div>
+            </div>
+            <div class="service-card">
+                <img src="almacenamiento-temporal.png" alt="Almacenamiento temporal">
+                <div class="service-card-content">
+                    <h3>Almacenamiento Temporal</h3>
+                    <p>¿Necesitás un lugar seguro para guardar tus cosas por un tiempo? Contamos con un depósito privado
+                        y vigilado donde cada caja se almacena sellada y etiquetada, manteniendo tus pertenencias
+                        limpias y protegidas. Ideal si estás en plena remodelación, viajás por un tiempo, o simplemente
+                        necesitás liberar espacio sin desprenderte de tus objetos.</p>
+                </div>
+            </div>
+            <div class="service-card">
+                <img src="cargas-parciales.png" alt="Transporte de cargas parciales">
+                <div class="service-card-content">
+                    <h3>Transporte de Cargas Parciales</h3>
+                    <p>También hacemos envíos pequeños y compartidos, adaptándonos a tu necesidad. Si no necesitas mover
+                        una casa entera pero sí algunos muebles o artículos grandes, nuestro servicio de cargas
+                        parciales es la solución perfecta, con la misma profesionalidad y cuidado que nuestras mudanzas
+                        completas.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Process Section -->
+    <section class="process-section" id="servicio">
+        <h2 class="section-title">¿Cómo funcionamos?</h2>
+        <div class="process-steps">
+            <!-- Step 1 -->
+            <div class="process-card">
+                <div class="process-logo">
+                </div>
+                <div class="process-icon">
+                    <i class="fas fa-file-alt"></i>
+                </div>
+                <h3>Llena el formulario</h3>
+                <p>Completá nuestro formulario en línea con los datos básicos de tu mudanza. Esto nos permite conocer
+                    tus necesidades y planificar el servicio ideal para vos.</p>
+            </div>
+
+            <!-- Step 2 -->
+            <div class="process-card">
+                <div class="process-logo">
+                </div>
+                <div class="process-icon">
+                    <i class="fas fa-phone-alt"></i>
+                </div>
+                <h3>Te contactamos</h3>
+                <p>Uno de nuestros asesores se comunicará con vos a la brevedad para brindarte atención personalizada y
+                    responder cualquier consulta.</p>
+            </div>
+
+            <!-- Step 3 -->
+            <div class="process-card">
+                <div class="process-logo">
+                </div>
+                <div class="process-icon">
+                    <i class="fas fa-calendar-check"></i>
+                </div>
+                <h3>Pactamos una visita</h3>
+                <p>Coordinamos una visita técnica en el lugar para evaluar los detalles del traslado y ofrecerte la
+                    mejor solución posible.</p>
+            </div>
+
+            <!-- Step 4 -->
+            <div class="process-card">
+                <div class="process-logo">
+                </div>
+                <div class="process-icon">
+                    <i class="fas fa-file-invoice-dollar"></i>
+                </div>
+                <h3>Te damos un presupuesto</h3>
+                <p>Luego del relevamiento, te enviamos un presupuesto detallado, claro y sin cargos ocultos, adaptado a
+                    tu mudanza.</p>
+            </div>
+
+            <!-- Step 5 -->
+            <div class="process-card">
+                <div class="process-logo">
+                </div>
+                <div class="process-icon">
+                    <i class="fas fa-truck-moving"></i>
+                </div>
+                <h3>Mudanza</h3>
+                <p>Con tu aprobación, programamos la mudanza y nos encargamos de todo el proceso con profesionalismo y
+                    puntualidad.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div>MOVIX 2024</div>
+            <div>Todos los derechos reservados</div>
+        </div>
+    </footer>
+
+    <!-- WhatsApp Icon -->
+    <a href="https://api.whatsapp.com/send/?phone=5491135791114&text=%C2%A1Hola%21+I+Would+like+to+know+m%C3%A1s+about+the+movers.&type=phone_number&app_absent=0"
+        class="whatsapp-icon" target="_blank">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <!-- Back to Top Button - Now centered at bottom -->
+    <div class="back-to-top-container">
+        <div class="back-to-top" id="back-to-top">
+            <i class="fas fa-arrow-up"></i>
+        </div>
+    </div>
+
+    <!-- Chatbox Container -->
+    <div class="chatbox-container">
+        <!-- Chatbox -->
+        <div class="chatbox" id="chatbox">
+            <div class="chatbox-header">
+                <img src="movix-icon.png" alt="Movix Asistente">
+                <div class="chatbox-header-info">
+                    <h3>MOVIX Asistente</h3>
+                    <p>En línea</p>
+                </div>
+                <button class="chatbox-close" id="chatbox-close">&times;</button>
+            </div>
+            <div class="chatbox-body" id="chatbox-body">
+                <!-- Messages will be inserted here -->
+            </div>
+            <div class="chatbox-footer">
+                <input type="text" class="chatbox-input" id="chatbox-input" placeholder="Escribe un mensaje...">
+                <button class="chatbox-send" id="chatbox-send">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M22 2L11 13" stroke="white" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round" />
+                        <path d="M22 2L15 22L11 13L2 9L22 2Z" stroke="white" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Chatbox Button -->
+        <div class="chatbox-button" id="chatbox-button">
+            <img src="movix-icon.png" alt="Chat">
+            <div class="notification" id="notification">1</div>
+        </div>
+    </div>
+
+    <script>
+        // Header scroll effect
+        const header = document.getElementById('main-header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Carousel functionality - ACTUALIZADO
+        const slides = document.querySelectorAll('.carousel-slide');
+        const controls = document.querySelectorAll('.carousel-control');
+        let currentIndex = 0;
+
+        function updateCarousel() {
+            slides.forEach((slide, index) => {
+                if (index === currentIndex) {
+                    slide.classList.add('active');
+                } else {
+                    slide.classList.remove('active');
+                }
+            });
+
+            controls.forEach((control, index) => {
+                if (index === currentIndex) {
+                    control.classList.add('active');
+                } else {
+                    control.classList.remove('active');
+                }
+            });
+        }
+
+        controls.forEach(control => {
+            control.addEventListener('click', () => {
+                currentIndex = parseInt(control.dataset.index);
+                updateCarousel();
+            });
+        });
+
+        // Auto-rotate carousel
+        setInterval(() => {
+            currentIndex = (currentIndex + 1) % slides.length;
+            updateCarousel();
+        }, 5000);
+
+        // Inicializar el carrusel
+        updateCarousel();
+
+        // Back to top button
+        const backToTopButton = document.getElementById('back-to-top');
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                backToTopButton.classList.add('visible');
+            } else {
+                backToTopButton.classList.remove('visible');
+            }
+        });
+
+        backToTopButton.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // Chatbox functionality
+        document.addEventListener('DOMContentLoaded', function () {
+            const chatbox = document.getElementById('chatbox');
+            const chatboxButton = document.getElementById('chatbox-button');
+            const chatboxClose = document.getElementById('chatbox-close');
+            const chatboxBody = document.getElementById('chatbox-body');
+            const chatboxInput = document.getElementById('chatbox-input');
+            const chatboxSend = document.getElementById('chatbox-send');
+            const notification = document.getElementById('notification');
+
+            // Initial messages
+            const initialMessages = [
+                {
+                    text: "¡Hola! 👋 Soy el asistente virtual de Movix Mudanzas. ¿En qué puedo ayudarte hoy?",
+                    quickReplies: [
+                        "Servicios",
+                        "Cómo trabajamos",
+                        "Contacto"
+                    ]
+                }
+            ];
+
+            // Services information
+            const services = [
+                {
+                    title: "Mudanzas Residenciales",
+                    description: "Embalamos cada objeto con cuidado, transportamos tus pertenencias de forma segura y descargamos todo en tu nuevo hogar."
+                },
+                {
+                    title: "Almacenamiento temporal",
+                    description: "Contamos con un depósito privado y vigilado donde cada caja se almacena sellada y etiquetada."
+                },
+                {
+                    title: "Transporte de cargas parciales",
+                    description: "También hacemos envíos pequeños y compartidos, adaptándonos a tu necesidad."
+                }
+            ];
+
+            // Process information
+            const process = "Primero, llená el formulario de nuestra página web. Luego coordinamos una visita para cotizar. Finalmente, realizamos la mudanza de forma rápida y segura.";
+
+            // Contact information with WhatsApp link
+            const contact = `📧 Correo electrónico: movixmudanzas@gmail.com
+📱 Whatsapp: <a href="https://api.whatsapp.com/send/?phone=5491135791114&text=%C2%A1Hola%21+Quisiera+saber+m%C3%A1s+sobre+las+mudanzas.&type=phone_number&app_absent=0" class="whatsapp-link" target="_blank">11 3579-1114 (Presiona aquí)</a>`;
+
+            // Function to add a message to the chat
+            function addMessage(text, isReceived = true, hasQuickReplies = false, quickReplies = []) {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `message ${isReceived ? 'received' : 'sent'}`;
+
+                const contentDiv = document.createElement('div');
+                contentDiv.className = 'message-content';
+
+                // Allow HTML in messages for links
+                if (typeof text === 'string') {
+                    contentDiv.innerHTML = text;
+                } else {
+                    contentDiv.textContent = text;
+                }
+
+                messageDiv.appendChild(contentDiv);
+
+                // Add time
+                const timeDiv = document.createElement('div');
+                timeDiv.className = 'message-time';
+                const now = new Date();
+                timeDiv.textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                messageDiv.appendChild(timeDiv);
+
+                chatboxBody.appendChild(messageDiv);
+
+                // Add quick replies if any
+                if (hasQuickReplies && quickReplies.length > 0) {
+                    const quickRepliesDiv = document.createElement('div');
+                    quickRepliesDiv.className = 'quick-replies';
+
+                    quickReplies.forEach(reply => {
+                        const replyButton = document.createElement('button');
+                        replyButton.className = 'quick-reply';
+                        replyButton.textContent = reply;
+                        replyButton.addEventListener('click', function () {
+                            addMessage(reply, false);
+                            setTimeout(() => handleUserInput(reply), 500);
+                            quickRepliesDiv.remove();
+                        });
+                        quickRepliesDiv.appendChild(replyButton);
+                    });
+
+                    messageDiv.appendChild(quickRepliesDiv);
+                }
+
+                // Scroll to bottom
+                chatboxBody.scrollTop = chatboxBody.scrollHeight;
+
+                return messageDiv;
+            }
+
+            // Function to show typing indicator
+            function showTypingIndicator() {
+                const typingDiv = document.createElement('div');
+                typingDiv.className = 'message received';
+
+                const typingContent = document.createElement('div');
+                typingContent.className = 'typing-indicator';
+
+                for (let i = 0; i < 3; i++) {
+                    const dot = document.createElement('div');
+                    dot.className = 'typing-dot';
+                    typingContent.appendChild(dot);
+                }
+
+                typingDiv.appendChild(typingContent);
+                chatboxBody.appendChild(typingDiv);
+                chatboxBody.scrollTop = chatboxBody.scrollHeight;
+
+                return typingDiv;
+            }
+
+            // Function to hide typing indicator
+            function hideTypingIndicator(typingDiv) {
+                if (typingDiv && typingDiv.parentNode) {
+                    typingDiv.remove();
+                }
+            }
+
+            // Function to display services
+            function displayServices() {
+                const servicesDiv = document.createElement('div');
+                servicesDiv.className = 'message received';
+
+                const servicesContent = document.createElement('div');
+                servicesContent.className = 'message-content';
+                servicesContent.innerHTML = '<strong>Nuestros servicios:</strong>';
+
+                services.forEach(service => {
+                    const card = document.createElement('div');
+                    card.className = 'service-message-card';
+                    card.innerHTML = `
+                        <h4>${service.title}</h4>
+                        <p>${service.description}</p>
+                    `;
+                    servicesContent.appendChild(card);
+                });
+
+                servicesDiv.appendChild(servicesContent);
+
+                // Add time
+                const timeDiv = document.createElement('div');
+                timeDiv.className = 'message-time';
+                const now = new Date();
+                timeDiv.textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                servicesDiv.appendChild(timeDiv);
+
+                chatboxBody.appendChild(servicesDiv);
+                chatboxBody.scrollTop = chatboxBody.scrollHeight;
+            }
+
+            // Function to handle user input
+            function handleUserInput(input) {
+                const typing = showTypingIndicator();
+
+                setTimeout(() => {
+                    hideTypingIndicator(typing);
+
+                    input = input.toLowerCase();
+
+                    // Handle greetings
+                    if (input.includes('hola') || input.includes('buen día') || input.includes('buenas tardes') || input.includes('buenas noches')) {
+                        addMessage("¡Hola! 👋 Soy el asistente virtual de Movix Mudanzas. ¿En qué puedo ayudarte hoy?", true, true, ["Servicios", "Cómo trabajamos", "Contacto"]);
+                    }
+                    // Handle goodbyes
+                    else if (input.includes('chau') || input.includes('adiós') || input.includes('adios')) {
+                        addMessage("¡Espero haberte sido de ayuda! Si necesitas algo más, no dudes en preguntar.", true, false);
+                    }
+                    else if (input.includes('servicio') || input === 'servicios') {
+                        displayServices();
+                        addMessage("¿Te gustaría saber cómo trabajamos o nuestros datos de contacto?", true, true, ["Cómo trabajamos", "Contacto"]);
+                    }
+                    else if (input.includes('trabajamos') || input === 'cómo trabajamos' || input === 'como trabajamos') {
+                        addMessage("Así manejamos las mudanzas:\n\n" + process);
+                        addMessage("¿Quieres información sobre nuestros servicios o contacto?", true, true, ["Servicios", "Contacto"]);
+                    }
+                    else if (input.includes('contacto') || input === 'contacto') {
+                        addMessage("Nuestros contactos:<br><br>" + contact);
+                        addMessage("¿En qué más puedo ayudarte?", true, true, ["Servicios", "Cómo trabajamos"]);
+                    }
+                    else {
+                        addMessage("No entendí tu consulta. Por favor selecciona una opción:", true, true, ["Servicios", "Cómo trabajamos", "Contacto"]);
+                    }
+                }, 1500);
+            }
+
+            // Initialize chat
+            function initChat() {
+                initialMessages.forEach(msg => {
+                    addMessage(msg.text, true, true, msg.quickReplies);
+                });
+            }
+
+            // Toggle chatbox visibility
+            function toggleChatbox() {
+                chatbox.classList.toggle('active');
+                if (chatbox.classList.contains('active')) {
+                    notification.style.display = 'none';
+                }
+            }
+
+            // Event listeners
+            chatboxButton.addEventListener('click', function () {
+                toggleChatbox();
+                if (!chatboxBody.hasChildNodes()) {
+                    initChat();
+                }
+            });
+
+            chatboxClose.addEventListener('click', toggleChatbox);
+
+            chatboxSend.addEventListener('click', function () {
+                const message = chatboxInput.value.trim();
+                if (message) {
+                    addMessage(message, false);
+                    setTimeout(() => handleUserInput(message), 500);
+                    chatboxInput.value = '';
+                }
+            });
+
+            chatboxInput.addEventListener('keypress', function (e) {
+                if (e.key === 'Enter') {
+                    const message = chatboxInput.value.trim();
+                    if (message) {
+                        addMessage(message, false);
+                        setTimeout(() => handleUserInput(message), 500);
+                        chatboxInput.value = '';
+                    }
+                }
+            });
+
+            // Show notification if chat is not open
+            if (!chatbox.classList.contains('active')) {
+                notification.style.display = 'flex';
+            }
+        });
+    </script>
+</body>
+
+</html>
